@@ -11,15 +11,26 @@ function App() {
     character: '',
   });
 
+  const [filterQuote, setFilterQuote] = useState('');
+
   //pintar
-  const htmlData = data.map((quote, index) => {
-    return (
-      <li key={index}>
-        <p>{quote.quote}</p>
-        <p>{quote.character}</p>
-      </li>
-    );
-  });
+
+  const handleFilterQuote = (ev) => {
+    setFilterQuote(ev.target.value);
+  };
+
+  const htmlData = data
+    .filter((item) => {
+      return item.quote.toLowerCase().includes(filterQuote.toLowerCase());
+    })
+    .map((quote, index) => {
+      return (
+        <li key={index}>
+          <p>{quote.quote}</p>
+          <p>{quote.character}</p>
+        </li>
+      );
+    });
 
   const handleNewQuote = (ev) => {
     const inputId = ev.target.id;
@@ -30,15 +41,27 @@ function App() {
   const handleAddQuote = (ev) => {
     ev.preventDefault();
     setData([...data, newQuote]);
+    // Reset filter
+    setFilterQuote('');
   };
 
   return (
     <div>
       <h1>Frases de Friends</h1>
+      <form>
+        <label htmlFor="character">Filtrar por frase:</label>
+        <input
+          type="text"
+          name="quote"
+          id="quote"
+          value={filterQuote}
+          onChange={handleFilterQuote}
+        />
+      </form>
       <ul>{htmlData}</ul>
       <h2>Añadir una nueva frase</h2>
       <form>
-        <label for="text">Frase</label>
+        <label htmlFor="quote">Frase</label>
         <input
           type="text"
           onChange={handleNewQuote}
@@ -46,7 +69,7 @@ function App() {
           id="quote"
         />
         <br />
-        <label for="text">Personaje</label>
+        <label htmlFor="character">Personaje</label>
         <input
           type="text"
           onChange={handleNewQuote}
