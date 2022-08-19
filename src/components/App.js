@@ -12,6 +12,7 @@ function App() {
   });
 
   const [filterQuote, setFilterQuote] = useState('');
+  const [filterCharacter, setFilterCharacter] = useState('all');
 
   //pintar
 
@@ -19,7 +20,20 @@ function App() {
     setFilterQuote(ev.target.value);
   };
 
+  const handleFilterCharacter = (ev) => {
+    setFilterCharacter(ev.target.value);
+  };
+
   const htmlData = data
+    .filter((item) => {
+      if (filterCharacter === 'all') {
+        return true;
+      } else if (filterCharacter === item.character) {
+        return true;
+      } else {
+        return false;
+      }
+    })
     .filter((item) => {
       return item.quote.toLowerCase().includes(filterQuote.toLowerCase());
     })
@@ -43,6 +57,7 @@ function App() {
     setData([...data, newQuote]);
     // Reset filter
     setFilterQuote('');
+    setFilterCharacter('all');
   };
 
   return (
@@ -57,6 +72,16 @@ function App() {
           value={filterQuote}
           onChange={handleFilterQuote}
         />
+        <label htmlFor="character">Filtrar por personaje:</label>
+        <select value={filterCharacter} onChange={handleFilterCharacter}>
+          <option value="all">Todos</option>
+          <option value="Ross">Ross</option>
+          <option value="Monica">Monica</option>
+          <option value="Joey">Joey</option>
+          <option value="Phoebe">Phoebe</option>
+          <option value="Chandler">Chandler</option>
+          <option value="Rachel">Rachel</option>
+        </select>
       </form>
       <ul>{htmlData}</ul>
       <h2>Añadir una nueva frase</h2>
