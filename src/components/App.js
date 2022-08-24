@@ -102,7 +102,7 @@ function App() {
           id="character"
         />
         <br />
-        <button onClick={handleAddQuote}>Añadir la nueva frase</button>
+        <button onClick={handleAddQuote}>Añadir la nueva FRASE</button>
       </form>
     </div>
   );
